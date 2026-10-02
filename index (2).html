@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ru" id="htmlLang">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">WebMaster — Создание сайтов и продвижение бизнеса в Ида-Вирумаа</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --primary: #58a6ff;
+            --primary-dark: #1f6feb;
+            --accent: #f59e0b;
+            --neon-glow: rgba(88, 166, 255, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: var(--text-primary);
+            background-color: var(--bg-color);
+            line-height: 1.7;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Фоновые канвасы для цифровых бегущих пикселей по бокам */
+        .side-matrix {
+            position: fixed;
+            top: 0;
+            width: 180px;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+
+        #matrixLeft {
+            left: 0;
+            background: linear-gradient(90deg, rgba(13,17,23,0.95) 0%, transparent 100%);
+        }
+
+        #matrixRight {
+            right: 0;
+            background: linear-gradient(270deg, rgba(13,17,23,0.95) 0%, transparent 100%);
+        }
+
+        /* Адаптивная шапка */
+        header {
+            background: rgba(22, 27, 34, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 25px;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-phone-btn {
+            background: var(--primary);
+            color: var(--bg-color);
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px var(--neon-glow);
+            white-space: nowrap;
+        }
+
+        .header-phone-btn:hover {
+            background: var(--primary-dark);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .header-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        /* Неоновые переливающиеся электронные часы */
+        .estonia-clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 2px;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #58a6ff, #00ffcc, #ff007f, #58a6ff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: neonShine 6s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(88, 166, 255, 0.6));
+        }
+
+        @keyframes neonShine {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        .lang-panel {
+            display: flex;
+            gap: 6px;
+        }
+
+        .lang-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .lang-btn.active, .lang-btn:hover {
+            background: var(--primary);
+            color: var(--bg-color);
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px var(--neon-glow);
+        }
+
+        /* Главный экран (Hero) */
+        .hero {
+            background: linear-gradient(rgba(13, 17, 23, 0.8), rgba(13, 17, 23, 0.85)), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            color: var(--text-primary);
+            padding: 190px 20px 120px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 750px;
+            margin: 0 auto 35px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg-color);
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: 800;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: #d97706;
+            color: var(--text-primary);
+        }
+
+        /* Контейнер */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 70px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 35px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 50px;
+        }
+
+        /* Неоновый разделитель */
+        .neon-divider {
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            box-shadow: 0 0 15px var(--primary);
+            margin: 60px 0;
+            border-radius: 50%;
+        }
+
+        /* Иллюстрации между блоками */
+        .content-banner {
+            width: 100%;
+            height: 320px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .content-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .content-banner:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Сетка услуг */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 35px 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 6px solid var(--primary);
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 35px rgba(88, 166, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .service-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .service-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            font-size: 15px;
+            font-weight: 500;
+            color: #c9d1d9;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0;
+        }
+
+        .service-card.active .service-details {
+            max-height: 250px;
+            padding-top: 15px;
+        }
+
+        .toggle-hint {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        /* Блок региона: Ида-Вирумаа */
+        .cities-section {
+            background: linear-gradient(135deg, rgba(31, 111, 235, 0.15) 0%, rgba(88, 166, 255, 0.08) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 55px 35px;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cities-section h3 {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .cities-section p {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* Блок заказа / Контакты */
+        .cta-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            text-align: center;
+            padding: 85px 25px;
+            border-radius: 20px;
+            margin: 50px 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-bottom: 5px solid var(--accent);
+        }
+
+        .cta-section h2 {
+            color: var(--text-primary);
+        }
+
+        .cta-section p {
+            margin-bottom: 35px;
+            font-size: 19px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-viber {
+            display: inline-block;
+            background: #7360f2;
+            color: var(--text-primary);
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: 800;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(115, 96, 242, 0.4);
+        }
+
+        .btn-viber:hover {
+            transform: translateY(-2px);
+            background: #5c47e0;
+        }
+
+        /* Плавающие круглые кнопки справа внизу */
+        .floating-buttons {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1001;
+        }
+
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: all 0.2s;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .float-phone {
+            background-color: var(--primary);
+        }
+
+        .float-viber {
+            background-color: #7360f2;
+        }
+
+        /* Подвал */
+        footer {
+            text-align: center;
+            padding: 35px;
+            background: #080a0f;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 600;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Адаптивность для телефонов и планшетов */
+        @media (max-width: 1200px) {
+            .side-matrix { display: none; }
+        }
+
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                padding: 10px 15px;
+                gap: 8px;
+            }
+            .header-left, .header-center, .lang-panel {
+                width: 100%;
+                justify-content: center;
+                flex-direction: row;
+            }
+            .header-center {
+                order: -1;
+            }
+            .logo { font-size: 16px; }
+            .estonia-clock { font-size: 13px; }
+            .hero { padding: 160px 15px 80px; }
+            .hero h1 { font-size: 26px; }
+            .hero p { font-size: 15px; }
+            .content-banner { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фоновые канвасы для бегущих цифровых пикселей по бокам -->
+    <canvas class="side-matrix" id="matrixLeft"></canvas>
+    <canvas class="side-matrix" id="matrixRight"></canvas>
+
+    <!-- Шапка сайта -->
+    <header>
+        <div class="header-left">
+            <a href="tel:+37254923735" class="header-phone-btn">
+                📞 <span id="headerPhoneText">+372 54 923 735</span>
+            </a>
+        </div>
+
+        <div class="header-center">
+            <div class="logo">WebMaster Ida-Virumaa</div>
+            <div class="estonia-clock" id="estoniaClock">00:00:00</div>
+        </div>
+
+        <div class="lang-panel">
+            <button onclick="setLanguage('ru')" class="lang-btn active" id="btnRu">RU</button>
+            <button onclick="setLanguage('est')" class="lang-btn" id="btnEst">EST</button>
+        </div>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <h1 id="heroTitle">Создание сайтов и продвижение бизнеса в Ида-Вирумаа</h1>
+        <p id="heroDesc">Помогаем местным предпринимателям заявить о себе в интернете. Разрабатываем современные одностраничные сайты, лендинги и визитки под ключ.</p>
+        <a href="#order" class="btn" id="heroBtn">Обсудить проект</a>
+    </section>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <section>
+            <h2 id="servicesTitle">Наши услуги для вашего бизнеса</h2>
+            <p class="section-subtitle" id="servicesSubtitle">Создаем работающие инструменты для привлечения клиентов в Кохтла-Ярве, Йыхви, Нарве и по всему Ида-Вирумаа</p>
+            
+            <div class="services-grid">
+                
+                <div class="service-card" onclick="toggleCard(this)">
+                    <h3 id="card1Title">💻 Сайт-визитка под ключ</h3>
+                    <p id="card1Desc">Идеальное решение для небольшого бизнеса, частных мастеров и сферы услуг.</p>
+                    <span class="toggle-hint" data-ru-hint="Нажмите, чтобы развернуть детали ▼" data-est-hint="Klõpsake detailide näitamiseks ▼">Нажмите, чтобы развернуть детали ▼</span>
+                    <div class="service-details" id="card1Details">
+                        Компактный и стильный сайт с информацией о вас, вашими контактами и услугами. Отличный старт для присутствия в сети.
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="toggleCard(this)">
+                    <h3 id="card2Title">🚀 Продающий лендинг (Landing Page)</h3>
+                    <p id="card2Desc">Одностраничный сайт, заточенный под конкретный товар или услугу для максимальных продаж.</p>
+                    <span class="toggle-hint" data-ru-hint="Нажмите, чтобы развернуть детали ▼" data-est-hint="Klõpsake detailide näitamiseks ▼">Нажмите, чтобы развернуть детали ▼</span>
+                    <div class="service-details" id="card2Details">
+                        Мощный маркетинговый инструмент с призывами к действию, удобными формами связи и быстрой загрузкой.
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="toggleCard(this)">
+                    <h3 id="card3Title">📈 Продвижение и реклама бизнеса</h3>
+                    <p id="card3Desc">Комплексная помощь в привлечении клиентов и раскрутке вашего дела в интернете.</p>
+                    <span class="toggle-hint" data-ru-hint="Нажмите, чтобы развернуть детали ▼" data-est-hint="Klõpsake detailide näitamiseks ▼">Нажмите, чтобы развернуть детали ▼</span>
+                    <div class="service-details" id="card3Details">
+                        Настройка локального присутствия, базовое SEO, оптимизация под поисковые системы и консультации по привлечению клиентов.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Неоновый разделитель -->
+        <div class="neon-divider"></div>
+
+        <!-- Первая промежуточная иллюстрация -->
+        <div class="content-banner">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Разработка и командная работа">
+        </div>
+
+        <div class="services-grid" style="margin-top: 40px;">
+            
+            <div class="service-card" onclick="toggleCard(this)">
+                <h3 id="card4Title">📱 Адаптивный дизайн</h3>
+                <p id="card4Desc">Идеальное отображение вашего сайта на любых устройствах: телефонах, планшетах и ПК.</p>
+                <span class="toggle-hint" data-ru-hint="Нажмите, чтобы развернуть детали ▼" data-est-hint="Klõpsake detailide näitamiseks ▼">Нажмите, чтобы развернуть детали ▼</span>
+                <div class="service-details" id="card4Details">
+                    Более 70% клиентов заходят с телефонов. Ваш сайт будет выглядеть безупречно на экранах любых размеров.
+                </div>
+            </div>
+
+            <div class="service-card" onclick="toggleCard(this)">
+                <h3 id="card5Title">⚡ Техническая поддержка</h3>
+                <p id="card5Desc">Помощь с выбором домена, хостинга, обновление информации и оперативные доработки.</p>
+                <span class="toggle-hint" data-ru-hint="Нажмите, чтобы развернуть детали ▼" data-est-hint="Klõpsake detailide näitamiseks ▼">Нажмите, чтобы развернуть детали ▼</span>
+                <div class="service-details" id="card5Details">
+                    Берем на себя все технические вопросы, чтобы вы могли полностью сосредоточиться на своем бизнесе.
+                </div>
+            </div>
+
+            <div class="service-card" onclick="toggleCard(this)">
+                <h3 id="card6Title">🤝 Консультации и запуск</h3>
+                <p id="card6Desc">Пошаговое сопровождение от идеи до готового сайта в интернете.</p>
+                <span class="toggle-hint" data-ru-hint="Нажмите, чтобы развернуть детали ▼" data-est-hint="Klõpsake detailide näitamiseks ▼">Нажмите, чтобы развернуть детали ▼</span>
+                <div class="service-details" id="card6Details">
+                    Объясним простым языком, подберем лучший вариант под ваш бюджет и запустим проект в кратчайшие сроки.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Вторая промежуточная иллюстрация -->
+        <div class="content-banner" style="margin-top: 50px;">
+            <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1200&q=80" alt="Современные технологии и код">
+        </div>
+
+        <!-- Блок региона: Ида-Вирумаа -->
+        <div class="cities-section">
+            <h3 id="regionTitle">Работаем по всему уезду Ида-Вирумаа</h3>
+            <p id="regionDesc">Кохтла-Ярве, Йыхви, Нарва, Силламяэ, Кивиыли и другие города. На связи и готовы помочь вашему бизнесу уверенно заявить о себе в цифровом пространстве.</p>
+        </div>
+    </div>
+
+    <!-- Блок заказа -->
+    <div class="container" style="padding-top: 0;">
+        <div class="cta-section" id="order">
+            <h2 id="ctaTitle">Готовы запустить свой сайт или обсудить продвижение?</h2>
+            <p id="ctaDesc">Свяжитесь с нами прямо сейчас — позвоните или напишите в Viber!</p>
+            <div class="cta-buttons">
+                <a href="tel:+37254923735" class="btn" id="ctaBtnCall">Позвонить</a>
+                <a href="viber://chat?number=+37254923735" class="btn-viber" id="ctaBtnViber">Написать в Viber</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Плавающие круглые кнопки быстрой связи справа внизу -->
+    <div class="floating-buttons">
+        <a href="viber://chat?number=+37254923735" class="float-btn float-viber" title="Написать в Viber">💬</a>
+        <a href="tel:+37254923735" class="float-btn float-phone" title="Позвонить">📞</a>
+    </div>
+
+    <!-- Подвал -->
+    <footer>
+        <p id="footerText">&copy; 2026 «WebMaster Ida-Virumaa». Все права защищены.</p>
+    </footer>
+
+    <!-- Скрипты -->
+    <script>
+        function initMatrix(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const characters = '0101010101ABCDEF<>/#*@';
+            const fontSize = 14;
+            const columns = Math.floor(canvas.width / fontSize);
+            const drops = [];
+
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -50);
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(13, 17, 23, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    const x = i * fontSize;
+                    const y = drops[i] * fontSize;
+
+                    if (Math.random() > 0.85) {
+                        ctx.fillStyle = '#00ffcc';
+                    } else {
+                        ctx.fillStyle = '#58a6ff';
+                    }
+
+                    ctx.fillText(text, x, y);
+
+                    if (y > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            setInterval(draw, 45);
+        }
+
+        initMatrix('matrixLeft');
+        initMatrix('matrixRight');
+
+        function toggleCard(card) {
+            card.classList.toggle('active');
+            const hint = card.querySelector('.toggle-hint');
+            const currentLang = document.getElementById('htmlLang').getAttribute('lang');
+            if (card.classList.contains('active')) {
+                hint.textContent = currentLang === 'est' ? 'Sulge ▲' : 'Свернуть ▲';
+            } else {
+                hint.textContent = hint.getAttribute(currentLang === 'est' ? 'data-est-hint' : 'data-ru-hint');
+            }
+        }
+
+        function updateEstoniaClock() {
+            const options = {
+                timeZone: 'Europe/Tallinn',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const formatter = new Intl.DateTimeFormat([], options);
+            document.getElementById('estoniaClock').textContent = formatter.format(new Date());
+        }
+
+        setInterval(updateEstoniaClock, 1000);
+        updateEstoniaClock();
+
+        const translations = {
+            ru: {
+                title: "WebMaster — Создание сайтов и продвижение бизнеса в Ида-Вирумаа",
+                heroTitle: "Создание сайтов и продвижение бизнеса в Ида-Вирумаа",
+                heroDesc: "Помогаем местным предпринимателям заявить о себе в интернете. Разрабатываем современные одностраничные сайты, лендинги и визитки под ключ.",
+                heroBtn: "Обсудить проект",
+                servicesTitle: "Наши услуги для вашего бизнеса",
+                servicesSubtitle: "Создаем работающие инструменты для привлечения клиентов в Кохтла-Ярве, Йыхви, Нарве и по всему Ида-Вирумаа",
+                card1Title: "💻 Сайт-визитка под ключ",
+                card1Desc: "Идеальное решение для небольшого бизнеса, частных мастеров и сферы услуг.",
+                card1Details: "Компактный и стильный сайт с информацией о вас, вашими контактами и услугами. Отличный старт для присутствия в сети.",
+                card2Title: "🚀 Продающий лендинг (Landing Page)",
+                card2Desc: "Одностраничный сайт, заточенный под конкретный товар или услугу для максимальных продаж.",
+                card2Details: "Мощный маркетинговый инструмент с призывами к действию, удобными формами связи и быстрой загрузкой.",
+                card3Title: "📈 Продвижение и реклама бизнеса",
+                card3Desc: "Комплексная помощь в привлечении клиентов и раскрутке вашего дела в интернете.",
+                card3Details: "Настройка локального присутствия, базовое SEO, оптимизация под поисковые системы и консультации по привлечению клиентов.",
+                card4Title: "📱 Адаптивный дизайн",
+                card4Desc: "Идеальное отображение вашего сайта на любых устройствах: телефонах, планшетах и ПК.",
+                card4Details: "Более 70% клиентов заходят с телефонов. Ваш сайт будет выглядеть безупречно на экранах любых размеров.",
+                card5Title: "⚡ Техническая поддержка",
+                card5Desc: "Помощь с выбором домена, хостинга, обновление информации и оперативные доработки.",
+                card5Details: "Берем на себя все технические вопросы, чтобы вы могли полностью сосредоточиться на своем бизнесе.",
+                card6Title: "🤝 Консультации и запуск",
+                card6Desc: "Пошаговое сопровождение от идеи до готового сайта в интернете.",
+                card6Details: "Объясним простым языком, подберем лучший вариант под ваш бюджет и запустим проект в кратчайшие сроки.",
+                regionTitle: "Работаем по всему уезду Ида-Вирумаа",
+                regionDesc: "Кохтла-Ярве, Йыхви, Нарва, Силламяэ, Кивиыли и другие города. На связи и готовы помочь вашему бизнесу уверенно заявить о себе в цифровом пространстве.",
+                ctaTitle: "Готовы запустить свой сайт или обсудить продвижение?",
+                ctaDesc: "Свяжитесь с нами прямо сейчас — позвоните или напишите в Viber!",
+                ctaBtnCall: "Позвонить",
+                ctaBtnViber: "Написать в Viber",
+                footerText: "&copy; 2026 «WebMaster Ida-Virumaа». Все права защищены."
+            },
+            est: {
+                title: "WebMaster — Kodulehtede loomine ja äri edendamine Ida-Virumaal",
+                heroTitle: "Kodulehtede loomine ja äri edendamine Ida-Virumaal",
+                heroDesc: "Aitame kohalikel ettevõtjatel internetis silma paista. Loome kaasaegseid ühelehelisi veebilehti, maandumislehti (landing page) ja visiitkaart-veebilehti.",
+                heroBtn: "Aruta projekti",
+                servicesTitle: "Meie teenused teie ettevõttele",
+                servicesSubtitle: "Loome toimivad tööriistad klientide meelitamiseks Kohtla-Järvel, Jõhvis, Narvas ja kogu Ida-Virumaal",
+                card1Title: "💻 Visiitkaart-veebileht",
+                card1Desc: "Ideaalne lahendus väikeettevõtetele, eraisikutest meistritele ja teenusepakkujatele.",
+                card1Details: "Kompaktne ja stiilne veebileht teie andmete, kontaktide ja teenustega. Suurepärane algus veebis kohalolu loomiseks.",
+                card2Title: "🚀 Müügileht (Landing Page)",
+                card2Desc: "Üheleheline veebileht, mis on kohandatud kindla toote või teenuse maksimaalseks müügiks.",
+                card2Details: "Võimas turundustööriist üleskutsete, mugavate kontaktivormide ja kiire laadimisega.",
+                card3Title: "📈 Äri edendamine ja reklaam",
+                card3Desc: "Igakülgne abi klientide leidmisel ja teie ettevõtte turundamisel internetis.",
+                card3Details: "Kohaliku leitavuse seadistamine, baastasemel SEO, otsingumootorite optimeerimine ja konsultatsioonid.",
+                card4Title: "📱 Adaptiivne disain",
+                card4Desc: "Veebilehe täiuslik kuvamine kõigil seadmetel: telefonides, tahvelarvutites ja arvutites.",
+                card4Details: "Üle 70% klientidest külastab lehte nutitelefonist. Teie leht näeb laitmatu välja igas suuruses ekraanil.",
+                card5Title: "⚡ Tehniline tugi",
+                card5Desc: "Abi domeeni ja hostingu valikul, info uuendamine ja kiired parandused.",
+                card5Details: "Võtame kõik tehnilised küsimused enda kanda, et saaksite keskenduda oma ärile.",
+                card6Title: "🤝 Konsultatsioonid ja käivitamine",
+                card6Desc: "Samm-sammuline tugi ideest kuni valmis veebileheni internetis.",
+                card6Details: "Selgitame lihtsas keeles, valime teie eelarvele sobivaima lahenduse ja käivitame projekti kiiresti.",
+                regionTitle: "Töötame kogu Ida-Virumaa maakonnas",
+                regionDesc: "Kohtla-Järve, Jõhvis, Narva, Sillamäe, Kiviõli ja teised linnad. Oleme ühenduses ja valmis aitama teie ettevõttel digitaalses ruumis silma paista.",
+                ctaTitle: "Kas olete valmis oma veebilehe käivitama?",
+                ctaDesc: "Võtke meiega kohe ühendust — helistage või kirjutage Viberis!",
+                ctaBtnCall: "Helista",
+                ctaBtnViber: "Kirjuta Viberis",
+                footerText: "&copy; 2026 «WebMaster Ida-Virumaa». Kõik õigused kaitstud."
+            }
+        };
+
+        function setLanguage(lang) {
+            document.getElementById('htmlLang').setAttribute('lang', lang);
+            
+            document.getElementById('btnRu').classList.toggle('active', lang === 'ru');
+            document.getElementById('btnEst').classList.toggle('active', lang === 'est');
+
+            const t = translations[lang];
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('heroTitle').textContent = t.heroTitle;
+            document.getElementById('heroDesc').textContent = t.heroDesc;
+            document.getElementById('heroBtn').textContent = t.heroBtn;
+            document.getElementById('servicesTitle').textContent = t.servicesTitle;
+            document.getElementById('servicesSubtitle').textContent = t.servicesSubtitle;
+            
+            document.getElementById('card1Title').textContent = t.card1Title;
+            document.getElementById('card1Desc').textContent = t.card1Desc;
+            document.getElementById('card1Details').textContent = t.card1Details;
+
+            document.getElementById('card2Title').textContent = t.card2Title;
+            document.getElementById('card2Desc').textContent = t.card2Desc;
+            document.getElementById('card2Details').textContent = t.card2Details;
+
+            document.getElementById('card3Title').textContent = t.card3Title;
+            document.getElementById('card3Desc').textContent = t.card3Desc;
+            document.getElementById('card3Details').textContent = t.card3Details;
+
+            document.getElementById('card4Title').textContent = t.card4Title;
+            document.getElementById('card4Desc').textContent = t.card4Desc;
+            document.getElementById('card4Details').textContent = t.card4Details;
+
+            document.getElementById('card5Title').textContent = t.card5Title;
+            document.getElementById('card5Desc').textContent = t.card5Desc;
+            document.getElementById('card5Details').textContent = t.card5Details;
+
+            document.getElementById('card6Title').textContent = t.card6Title;
+            document.getElementById('card6Desc').textContent = t.card6Desc;
+            document.getElementById('card6Details').textContent = t.card6Details;
+
+            document.getElementById('regionTitle').textContent = t.regionTitle;
+            document.getElementById('regionDesc').textContent = t.regionDesc;
+
+            document.getElementById('ctaTitle').textContent = t.ctaTitle;
+            document.getElementById('ctaDesc').textContent = t.ctaDesc;
+            document.getElementById('ctaBtnCall').textContent = t.ctaBtnCall;
+            document.getElementById('ctaBtnViber').textContent = t.ctaBtnViber;
+            document.getElementById('footerText').innerHTML = t.footerText;
+
+            document.querySelectorAll('.toggle-hint').forEach(hint => {
+                hint.textContent = hint.getAttribute(lang === 'est' ? 'data-est-hint' : 'data-ru-hint');
+            });
+        }
+    </script>
+
+</body>
+</html>
